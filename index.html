@@ -720,18 +720,22 @@ const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
           } catch {}
            // Post score to Supabase leaderboard
 (async () => {
+  const username = typeof playerName !== "undefined" && playerName ? playerName : "Guest";
   const { error } = await supabase
     .from('leaderboard')
     .insert([
       {
-        game_id: '1', // <-- must match the id used in your Next.js app
+        game_id: '1',
         user_id: 'guest',
         score: score,
-        username: playerName, // or 'Guest'
+        username: username,
       }
     ]);
   if (error) {
+    alert('Error posting score: ' + error.message);
     console.error('Error posting score:', error.message);
+  } else {
+    console.log('Score posted to leaderboard!');
   }
 })();
           openModal('gameover');
@@ -1345,6 +1349,7 @@ const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
     </script>
   </body>
 </html>
+
 
 
 
