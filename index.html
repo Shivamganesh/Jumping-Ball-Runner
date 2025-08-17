@@ -724,10 +724,10 @@ const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
     .from('leaderboard')
     .insert([
       {
-        game_id: 'jumping_ball_runner', // or your game id
-        user_id: 'guest', // or a real user id if available
+        game_id: '1', // <-- must match the id used in your Next.js app
+        user_id: 'guest',
         score: score,
-        username: 'Guest', // or get from user input
+        username: playerName, // or 'Guest'
       }
     ]);
   if (error) {
@@ -1345,6 +1345,7 @@ const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
     </script>
   </body>
 </html>
+
 
 
 
