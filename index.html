@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
     <title>Jumping Ball Runner</title>
+     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+   
     <style>
       :root {
         --ui-shadow: rgba(0, 0, 0, 0.25);
@@ -273,6 +275,9 @@
         const WORLD_WIDTH = 960;
         const WORLD_HEIGHT = 540;
         let screenScale = 1;
+         const supabaseUrl = 'https://gurzhgorfmylduexdvjt.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd1cnpoZ29yZm15bGR1ZXhkdmp0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ3MTkwMjEsImV4cCI6MjA3MDI5NTAyMX0.Rd6E4LjB-WKFah82gTR1BVBU-_0WCX3T-ak8V_nnXHA';
+const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
         function resizeCanvas() {
           const cssWidth = Math.min(window.innerWidth, (window.innerHeight * 16) / 9);
@@ -713,6 +718,22 @@
               }, '*');
             }
           } catch {}
+           // Post score to Supabase leaderboard
+(async () => {
+  const { error } = await supabase
+    .from('leaderboard')
+    .insert([
+      {
+        game_id: 'jumping_ball_runner', // or your game id
+        user_id: 'guest', // or a real user id if available
+        score: score,
+        username: 'Guest', // or get from user input
+      }
+    ]);
+  if (error) {
+    console.error('Error posting score:', error.message);
+  }
+})();
           openModal('gameover');
         }
 
@@ -1324,5 +1345,6 @@
     </script>
   </body>
 </html>
+
 
 
